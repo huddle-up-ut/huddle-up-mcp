@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  team-captain-agent:
+    build:
+      context: ./team-captain-agent
+      dockerfile: Dockerfile
+    image: huddle-up-team-captain-agent
+    container_name: huddle-up-team-captain-agent
+    ports:
+      - "8001:8000"
+    networks:
+      - huddle-up-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  schedule-agent:
+    build:
+      context: ./schedule-agent
+      dockerfile: Dockerfile
+    image: huddle-up-schedule-agent
+    container_name: huddle-up-schedule-agent
+    ports:
+      - "8002:8000"
+    networks:
+      - huddle-up-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  attendance-agent:
+    build:
+      context: ./attendance-agent
+      dockerfile: Dockerfile
+    image: huddle-up-attendance-agent
+    container_name: huddle-up-attendance-agent
+    ports:
+      - "8003:8000"
+    networks:
+      - huddle-up-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+networks:
+  huddle-up-net:
+    external: true 
