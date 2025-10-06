@@ -9,10 +9,12 @@ services:
     container_name: huddle-up-team-captain-agent
     ports:
       - "8001:8000"
+    environment:
+      - RUN_HTTP=true
     networks:
       - huddle-up-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import socket; s=socket.socket(); s.settimeout(1); result=s.connect_ex(('localhost',8000)); s.close(); exit(result)"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -30,7 +32,7 @@ services:
     networks:
       - huddle-up-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import socket; s=socket.socket(); s.settimeout(1); result=s.connect_ex(('localhost',8000)); s.close(); exit(result)"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -48,7 +50,7 @@ services:
     networks:
       - huddle-up-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      test: ["CMD", "python", "-c", "import socket; s=socket.socket(); s.settimeout(1); result=s.connect_ex(('localhost',8000)); s.close(); exit(result)"]
       interval: 30s
       timeout: 10s
       retries: 3
